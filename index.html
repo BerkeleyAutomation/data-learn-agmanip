@@ -1,490 +1,413 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="description" content="Data and Learning for Agricultural Manipulation — A CoRL 2026 Workshop">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
+  <title>Data and Learning for Agricultural Manipulation | CoRL 2026 Workshop</title>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
 
-    function gtag() {
-      dataLayer.push(arguments);
+  <style>
+    :root {
+      --primary: #2f7d32;
+      --primary-dark: #1b5e20;
+      --accent: #8d6e63;
+      --bg-soft: #f6f8f3;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #2c2c2c; }
+
+    .hero-banner {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #aed581 100%);
+      color: white;
+      padding: 4rem 1.5rem 3rem;
+    }
+    .hero-banner .title, .hero-banner .subtitle { color: white; }
+    .hero-banner .subtitle.venue { color: #e8f5e9; font-weight: 500; }
+
+    .author-block a { color: #e8f5e9; text-decoration: underline; }
+    .author-block a:hover { color: #ffffff; }
+
+    .link-buttons .button {
+      margin: 0.25rem;
+      border-radius: 999px;
     }
 
-    gtag('js', new Date());
+    .section-title {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 0.4rem;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
 
-    gtag('config', 'G-PYVRSFMDRL');
-  </script>
+    section.content-section { padding: 3rem 1.5rem; }
+    section.content-section.alt { background-color: var(--bg-soft); }
 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
+    .topic-list li { margin-bottom: 0.5rem; }
 
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
+    .speaker-card {
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 1.25rem;
+      height: 100%;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      background: white;
+    }
+    .speaker-card:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    .speaker-card .speaker-name { font-weight: 700; }
+    .speaker-card .speaker-name a { color: var(--primary-dark); text-decoration: none; }
+    .speaker-card .speaker-name a:hover { text-decoration: underline; }
+    .speaker-card .speaker-affil { color: #777; font-size: 0.9rem; margin-bottom: 0.5rem; }
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
-  <script src="./static/js/bulma-slider.min.js"></script>
-  <script src="./static/js/index.js"></script>
+    .schedule-table th { background-color: var(--primary); color: white; }
+
+    .timeline-step {
+      border-left: 3px solid var(--primary);
+      padding-left: 1rem;
+      margin-bottom: 0.85rem;
+    }
+    .timeline-step .date { font-weight: 700; color: var(--primary-dark); }
+
+    .organizer-list .icon-link { margin-left: 0.4rem; }
+
+    footer.footer {
+      background-color: var(--primary-dark);
+      color: #e8f5e9;
+      padding: 2rem 1.5rem;
+    }
+    footer.footer a { color: #ffffff; }
+
+    .tag.is-theme {
+      background-color: #e8f5e9;
+      color: var(--primary-dark);
+    }
+
+    .cta-banner {
+      background-color: #fff8e1;
+      border: 1px solid #ffe082;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+    }
+  </style>
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
+  <!-- HERO -->
+  <section class="hero-banner">
+    <div class="container has-text-centered">
+      <img src="static/images/corl26.png" alt="CoRL 2026 Logo" class="corl-logo mb-4" style="height:64px; max-width:90%;">
+      <h1 class="title is-2 is-spaced">Data and Learning for Agricultural Manipulation</h1>
+      <h2 class="subtitle is-5 venue">A Half-Day Workshop at CoRL 2026 &middot; Workshop Day: November 9, 2026 &middot; Austin, TX</h2>
 
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
+      <div class="author-block is-size-6 mt-4">
+        <p>
+          <a href="#organizers">Shuangyu Xie</a><sup>1</sup> &nbsp;
+          <a href="#organizers">Simeon Adebola</a><sup>1</sup> &nbsp;
+          <a href="#organizers">Eric Chen</a><sup>1</sup> &nbsp;
+          <a href="#organizers">Lirong Xiang</a><sup>2</sup> &nbsp;
+          <a href="#organizers">Arun Narenthiran Sivakumar</a><sup>3</sup> &nbsp;
+          <a href="#organizers">Varun Murali</a><sup>4</sup>
+        </p>
+        <p class="is-size-7 mt-2">
+          <sup>1</sup>UC Berkeley &nbsp; <sup>2</sup>Cornell University &nbsp; <sup>3</sup>Terrawise &nbsp; <sup>4</sup>Texas A&amp;M University
+        </p>
+      </div>
+
+      <div class="link-buttons mt-5">
+        <a href="https://www.corl.org/contributions/call-for-workshops" class="button is-rounded is-light" target="_blank" rel="noopener">
+          <span class="icon"><i class="fas fa-file-alt"></i></span>
+          <span>CoRL 2026 CFP</span>
         </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://hypernerf.github.io">
-            HyperNeRF
-          </a>
-          <a class="navbar-item" href="https://nerfies.github.io">
-            Nerfies
-          </a>
-          <a class="navbar-item" href="https://latentfusion.github.io">
-            LatentFusion
-          </a>
-          <a class="navbar-item" href="https://photoshape.github.io">
-            PhotoShape
-          </a>
-        </div>
+        <a href="#cfp" class="button is-rounded is-light">
+          <span class="icon"><i class="fas fa-bullhorn"></i></span>
+          <span>Call for Papers</span>
+        </a>
+        <a href="#schedule" class="button is-rounded is-light">
+          <span class="icon"><i class="fas fa-calendar-days"></i></span>
+          <span>Schedule</span>
+        </a>
+        <a href="https://forms.gle/9JYDgBoshMKuWp1i7" class="button is-rounded is-warning" target="_blank" rel="noopener">
+          <span class="icon"><i class="fas fa-pen-to-square"></i></span>
+          <span>Volunteer as Reviewer</span>
+        </a>
       </div>
     </div>
+  </section>
 
-  </div>
-</nav>
-
-
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Nerfies: Deformable Neural Radiance Fields</h1>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
-            <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
-            <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
-            </span>
-          </div>
-
-          <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
-          </div>
-
-          <div class="column has-text-centered">
-            <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="https://arxiv.org/pdf/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://github.com/google/nerfies"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-              <!-- Dataset Link. -->
-              <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
-      </h2>
-    </div>
-  </div>
-</section>
-
-
-<section class="hero is-light is-small">
-  <div class="hero-body">
+  <!-- OVERVIEW / ABSTRACT -->
+  <section class="content-section">
     <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/steve.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/chair-tp.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/shiba.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/fullbody.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/blueshirt.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mask.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/coffee.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-toby">
-          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/toby2.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            We present the first method capable of photorealistically reconstructing a non-rigidly
-            deforming scene using photos/videos captured casually from mobile phones.
-          </p>
-          <p>
-            Our approach augments neural radiance fields
-            (NeRF) by optimizing an
-            additional continuous volumetric deformation field that warps each observed point into a
-            canonical 5D NeRF.
-            We observe that these NeRF-like deformation fields are prone to local minima, and
-            propose a coarse-to-fine optimization method for coordinate-based models that allows for
-            more robust optimization.
-            By adapting principles from geometry processing and physical simulation to NeRF-like
-            models, we propose an elastic regularization of the deformation field that further
-            improves robustness.
-          </p>
-          <p>
-            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
-            photos/videos into deformable NeRF
-            models that allow for photorealistic renderings of the subject from arbitrary
-            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
-            using a
-            rig with two mobile phones that take time-synchronized photos, yielding train/validation
-            images of the same pose at different viewpoints. We show that our method faithfully
-            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
-            fidelity.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
-
-    <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-    <!--/ Paper video. -->
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
-          <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
-          </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-4 section-title">Overview</h2>
+          <div class="content is-medium">
             <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
+              Agriculture remains one of the most important research areas in today's world as we seek
+              to feed an ever-growing population, while dealing with limited water and land, by
+              automating and optimizing inputs to maximize desired yields.
             </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
+            <p>
+              Compared with automation in industrial settings, where objects, poses, and environmental
+              conditions are largely fixed and predetermined, agricultural robotics inherently operates
+              under substantial variability. Tasks such as irrigation, pruning, weeding, and harvesting
+              naturally fit the notion of <strong>&ldquo;Variational Automation&rdquo;</strong> &mdash; even among plants of
+              the same species, significant variation arises in geometry, pose, size, maturity, and
+              spatial arrangement due to differences in growth stage, environmental conditions, and
+              biological processes. Outdoor environments add further sources of uncertainty, including
+              changing illumination, weather, occlusions, and terrain conditions. As a result,
+              agricultural robots must continuously adapt their perception, planning, and manipulation
+              strategies to handle diverse task instances rather than repeatedly executing a single
+              predefined workflow.
+            </p>
+            <p>
+              This fundamental variability makes agriculture an ideal domain for studying variational
+              automation, where robustness, adaptation, and generalization are essential for reliable
+              deployment at scale. In the age of generative AI and foundation models, this workshop
+              brings together researchers, students, industry stakeholders, and practitioners to
+              re-examine these challenges in light of these emerging paradigms.
+            </p>
           </div>
-
         </div>
       </div>
     </div>
-    <!--/ Matting. -->
+  </section>
 
-    <!-- Animation. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Animation</h2>
-
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Interpolating states</h3>
-        <div class="content has-text-justified">
-          <p>
-            We can also animate the scene by interpolating the deformation latent codes of two input
-            frames. Use the slider here to linearly interpolate between the left frame and the right
-            frame.
-          </p>
+  <!-- TOPICS -->
+  <section class="content-section alt">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-4 section-title">Topics of Interest</h2>
+          <p class="mb-4">We solicit submissions and discussion on questions including, but not limited to:</p>
+          <ul class="topic-list content is-medium">
+            <li>Multimodal sensing for dexterous plant manipulation</li>
+            <li>Robot navigation in agricultural fields, including orchards, vineyards, and greenhouses</li>
+            <li>Mobile manipulation in agricultural fields, including orchards, vineyards, and greenhouses</li>
+            <li>Digital twins at a variety of layers (2D, 3D, and 4D) for plant growth modeling</li>
+            <li>World models with a variety of input modalities for growth and action prediction</li>
+            <li>Acquiring large-scale simulation data for improved plant modeling</li>
+            <li>Acquiring large-scale real-world plant data for improved plant modeling</li>
+            <li>Using foundation models such as SAM 3 and SAM 3D to improve perception and modeling of plants</li>
+            <li>Obtaining large-scale manipulation data for plants across a variety of robot actions</li>
+            <li>Using LLMs and VLMs to improve agricultural robot policies</li>
+            <li>Approaches for generalization in robot plant manipulation across tasks</li>
+          </ul>
         </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
-          </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEAKERS -->
+  <section class="content-section" id="speakers">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-4 section-title">Invited Speakers</h2>
+          <div class="columns is-multiline mt-2">
+
+            <div class="column is-6">
+              <div class="speaker-card">
+                <p class="speaker-name"><a href="https://www.linkedin.com/in/jim-ostrowski-9a8112/" target="_blank" rel="noopener">Jim Ostrowski</a></p>
+                <p class="speaker-affil">Chief Technology Officer, Blue River Technology</p>
+                <p>Brings an industry perspective on deployed agricultural automation systems.</p>
+              </div>
             </div>
-            <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
+
+            <!-- <div class="column is-6">
+              <div class="speaker-card">
+                <p class="speaker-name"><a href="https://goldberg.berkeley.edu/" target="_blank" rel="noopener">Ken Goldberg</a></p>
+                <p class="speaker-affil">UC Berkeley &mdash; AUTOLab</p>
+                <p>For nearly three decades, his lab has researched automation and manipulation in
+                  agricultural robotics, including precision irrigation, precision polyculture farming,
+                  and plant growth modeling. Brings an automation, algorithmic, and manipulation focus.</p>
+              </div>
+            </div> -->
+
+            <div class="column is-6">
+              <div class="speaker-card">
+                <p class="speaker-name"><a href="https://baileylab.ucdavis.edu/" target="_blank" rel="noopener">Brian Bailey</a></p>
+                <p class="speaker-affil">UC Davis &mdash; Plant Simulation Laboratory</p>
+                <p>Developer of Helios, a leading simulation platform for plants. Brings a simulation
+                  and modeling focus to the workshop.</p>
+              </div>
+            </div>
+
+            <div class="column is-6">
+              <div class="speaker-card">
+                <p class="speaker-name"><a href="https://thehcalab.web.illinois.edu/" target="_blank" rel="noopener">Katie Driggs-Campbell</a></p>
+                <p class="speaker-affil">University of Illinois Urbana-Champaign &mdash; Human-Centered Autonomy Lab</p>
+                <p>Affiliated with the Center for Digital Agriculture, working at the intersection of
+                  autonomy and human-centered robotics.</p>
+              </div>
+            </div>
+
+            <div class="column is-6">
+              <div class="speaker-card">
+                <p class="speaker-name"><a href="https://arm.stanford.edu/" target="_blank" rel="noopener">Monroe Kennedy III</a></p>
+                <p class="speaker-affil">Stanford University &mdash; Assistive Robotics and Manipulation Lab (ARMLab)</p>
+                <p>Develops tactile sensors and applies them to tasks requiring sub-millimeter precision,
+                  including in agriculture. Brings a multimodal and tactile sensing focus.</p>
+              </div>
+            </div>
+
           </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section class="content-section alt" id="schedule">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-4 section-title">Tentative Schedule</h2>
+          <p class="mb-4">Half-day workshop, 8:30 AM &ndash; 12:30 PM (local time, TBD)</p>
+
+          <div class="table-container">
+            <table class="table is-fullwidth is-striped schedule-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Session</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>8:30 &ndash; 8:40 AM</td><td>Welcome &mdash; workshop objectives and format</td></tr>
+                <tr><td>8:40 &ndash; 10:00 AM</td><td>Invited Talks (4 &times; 15-minute presentations + 5-minute Q&amp;A each)</td></tr>
+                <tr><td>10:00 &ndash; 10:30 AM</td><td>Accepted Talks / Poster Blitzes</td></tr>
+                <tr><td>10:30 &ndash; 11:00 AM</td><td>Coffee Break (Poster Sessions &amp; Demos)</td></tr>
+                <tr><td>11:00 &ndash; 11:30 AM</td><td>Panel Discussion</td></tr>
+                <tr><td>11:30 AM &ndash; 12:15 PM</td><td>Group Discussions / Brainstorming Sessions</td></tr>
+                <tr><td>12:15 &ndash; 12:30 PM</td><td>Concluding Remarks, Action Items, Closing</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="is-size-7 has-text-grey">Schedule is tentative and subject to change closer to the workshop date.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL FOR PAPERS -->
+  <section class="content-section" id="cfp">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-4 section-title">Call for Papers</h2>
+          <div class="content is-medium">
+            <p>
+              We invite contributions from agriculture researchers applying learning-based methods
+              aligned with any of the topics above. Submissions should be <strong>up to 3 pages
+              (excluding references)</strong> and will be treated as <strong>non-archival</strong>.
+            </p>
+            <p>
+              Papers will be selected based on their relevance to the workshop themes and their
+              potential to seed meaningful discussion among attendees. In line with CoRL 2026 policy,
+              we will not accept papers that have already been published at, or accepted to, the main
+              CoRL 2026 conference. Speakers and participants may, however, highlight relevant
+              agriculture robotics papers appearing at CoRL 2026.
+            </p>
+            <p>
+              Accepted papers will be spotlighted at the workshop, followed by a poster session, and
+              will be made available on this website. Authors are encouraged to participate in the
+              group discussions.
+            </p>
+          </div>
+
+          <h3 class="title is-5 mt-5">Key Dates</h3>
+          <div class="timeline mt-3">
+            <div class="timeline-step"><span class="date">June 18, 2026 (AoE)</span> &mdash; Workshop/Tutorial Proposal Submission</div>
+            <div class="timeline-step"><span class="date">July 18, 2026</span> &mdash; Proposal Acceptance Notification</div>
+            <div class="timeline-step"><span class="date">July 31, 2026</span> &mdash; Call for Workshop Paper Submissions Opens</div>
+            <div class="timeline-step"><span class="date">September 30, 2026</span> &mdash; Submission Deadline</div>
+            <div class="timeline-step"><span class="date">October 15, 2026</span> &mdash; Acceptance Notification</div>
+            <div class="timeline-step"><span class="date">November 9, 2026</span> &mdash; Workshop Day</div>
+          </div>
+
+          <div class="cta-banner mt-5">
+            <p>
+              <i class="fas fa-circle-check has-text-success"></i>
+              We are also seeking <strong>reviewers</strong> for submitted papers &mdash; this is a great
+              way to get involved with the workshop early and stay connected with the community.
+              <a href="https://forms.gle/9JYDgBoshMKuWp1i7" target="_blank" rel="noopener">Sign up here</a>.
+            </p>
           </div>
         </div>
-        <br/>
-        <!--/ Interpolating. -->
-
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
-
       </div>
     </div>
-    <!--/ Animation. -->
+  </section>
 
-
-    <!-- Concurrent Work. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
-
-        <div class="content has-text-justified">
-          <p>
-            There's a lot of excellent work that was introduced around the same time as ours.
-          </p>
-          <p>
-            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
-          </p>
-          <p>
-            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-            both use deformation fields to model non-rigid scenes.
-          </p>
-          <p>
-            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
-          </p>
-          <p>
-            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
-          </p>
+  <!-- POST-WORKSHOP ARTIFACT -->
+  <section class="content-section alt">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-4 section-title">Post-Workshop Artifact</h2>
+          <div class="content is-medium">
+            <p>
+              In line with CoRL 2026 requirements, we will release a post-workshop artifact &mdash;
+              a position paper &mdash; approximately one month after the workshop. The position paper
+              will be authored by the organizers, drawing on the invited talks, spotlight presentations,
+              and group discussions, and incorporating insights from speakers, panelists, and
+              participants. We intend to submit the resulting position paper to a venue such as
+              <em>Science Robotics</em>.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-    <!--/ Concurrent Work. -->
+  </section>
 
-  </div>
-</section>
-
-
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
-}</code></pre>
-  </div>
-</section>
-
-
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link"
-         href="./static/videos/nerfies_paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-            This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
-          </p>
+  <!-- ORGANIZERS -->
+  <section class="content-section" id="organizers">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-4 section-title">Organizers</h2>
+          <div class="content is-medium organizer-list">
+            <ul>
+              <li><strong>Shuangyu Xie</strong> (UC Berkeley) &mdash; Primary Organizer &mdash;
+                <a href="mailto:syxie@berkeley.edu">syxie@berkeley.edu</a></li>
+              <li><strong>Simeon Adebola</strong> (UC Berkeley) &mdash;
+                <a href="mailto:simeon.adebola@berkeley.edu">simeon.adebola@berkeley.edu</a></li>
+              <li><strong>Eric Chen</strong> (UC Berkeley) &mdash;
+                <a href="mailto:kych@berkeley.edu">kych@berkeley.edu</a></li>
+              <li><strong>Lirong Xiang</strong> (Cornell University) &mdash;
+                <a href="mailto:lxiang@cornell.edu">lxiang@cornell.edu</a></li>
+              <li><strong>Arun Narenthiran Sivakumar</strong> (Terrawise) &mdash;
+                <a href="mailto:arunnarenvs@gmail.com">arunnarenvs@gmail.com</a></li>
+              <li><strong>Varun Murali</strong> (Texas A&amp;M University) &mdash;
+                <a href="mailto:mvarun@tamu.edu">mvarun@tamu.edu</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</footer>
+  </section>
+
+  <!-- CONTACT / FOOTER -->
+  <footer class="footer">
+    <div class="container has-text-centered">
+      <p>
+        <i class="fas fa-envelope"></i>
+        For questions about this workshop, please contact the organizers above, or reach out via the
+        <a href="https://forms.gle/9JYDgBoshMKuWp1i7" target="_blank" rel="noopener">reviewer sign-up form</a>.
+      </p>
+      <p class="is-size-7 mt-3">
+        This workshop is proposed for <a href="https://www.corl.org/contributions/call-for-workshops" target="_blank" rel="noopener">CoRL 2026</a>.
+        Site design adapted from the
+        <a href="https://github.com/nerfies/nerfies.github.io" target="_blank" rel="noopener">Nerfies project page template</a>,
+        licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.
+      </p>
+    </div>
+  </footer>
 
 </body>
 </html>

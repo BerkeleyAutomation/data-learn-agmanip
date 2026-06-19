@@ -55,6 +55,7 @@
       height: 100%;
       transition: box-shadow 0.2s ease, transform 0.2s ease;
       background: white;
+      position: relative;
     }
     .speaker-card:hover {
       box-shadow: 0 8px 20px rgba(0,0,0,0.08);
@@ -64,6 +65,19 @@
     .speaker-card .speaker-name a { color: var(--primary-dark); text-decoration: none; }
     .speaker-card .speaker-name a:hover { text-decoration: underline; }
     .speaker-card .speaker-affil { color: #777; font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .speaker-card .online-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--primary-dark);
+      background: #e8f5e9;
+      border-radius: 999px;
+      padding: 0.15rem 0.6rem;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
 
     .schedule-table th { background-color: var(--primary); color: white; }
 
@@ -109,21 +123,17 @@
         <p>
           <a href="#organizers">Shuangyu Xie</a><sup>1</sup> &nbsp;
           <a href="#organizers">Simeon Adebola</a><sup>1</sup> &nbsp;
-          <a href="#organizers">Eric Chen</a><sup>1</sup> &nbsp;
+          <a href="#organizers">Kaiyuan &lsquo;Eric&rsquo; Chen</a><sup>1</sup> &nbsp;
           <a href="#organizers">Lirong Xiang</a><sup>2</sup> &nbsp;
           <a href="#organizers">Arun Narenthiran Sivakumar</a><sup>3</sup> &nbsp;
           <a href="#organizers">Varun Murali</a><sup>4</sup>
         </p>
         <p class="is-size-7 mt-2">
-          <sup>1</sup>UC Berkeley &nbsp; <sup>2</sup>Cornell University &nbsp; <sup>3</sup>Terrawise &nbsp; <sup>4</sup>Texas A&amp;M University
+          <sup>1</sup>UC Berkeley &nbsp; <sup>2</sup>Cornell University &nbsp; <sup>3</sup>TerraWise &nbsp; <sup>4</sup>Texas A&amp;M University
         </p>
       </div>
 
       <div class="link-buttons mt-5">
-        <a href="https://www.corl.org/contributions/call-for-workshops" class="button is-rounded is-light" target="_blank" rel="noopener">
-          <span class="icon"><i class="fas fa-file-alt"></i></span>
-          <span>CoRL 2026 CFP</span>
-        </a>
         <a href="#cfp" class="button is-rounded is-light">
           <span class="icon"><i class="fas fa-bullhorn"></i></span>
           <span>Call for Papers</span>
@@ -148,55 +158,34 @@
           <h2 class="title is-4 section-title">Overview</h2>
           <div class="content is-medium">
             <p>
-              Agriculture remains one of the most important research areas in today’s world as we seek 
-              to feed an ever growing population, while dealing with limited water and land, by 
-              automating and optimizing inputs to maximize desired yields. 
+              Agricultural robotics offers important opportunities for addressing global food security,
+              as approximately one in eleven people face hunger worldwide, while agriculture must operate
+              under increasing constraints on water, labor, and land.
             </p>
             <p>
-              In the age of big data, robotic and vision foundational models(e.g. pi 0.5, SAM 3, SAM 3D), 
-              generative AI, world models and learned policies(such as Vision-Language-Action models and 
-              World Action models), we seek to explore emerging research and questions on how these can be 
-              applied to solving challenges in Agricultural robotics. 
+              Agricultural manipulation, from interactive plant inspection to fruit harvesting, requires
+              robots to understand and operate under substantial variability caused by dynamic outdoor
+              conditions, such as lighting and wind, and by plant morphology, including differences in
+              growth stage and genotype. This variability presents a distinct challenge for robot learning.
+              Unlike home or industrial settings, where objects, poses, and environmental conditions are
+              often structured or known, agricultural environments involve significant variation even
+              among plants of the same species, including differences in geometry, pose, size, maturity,
+              and spatial arrangement.
             </p>
             <p>
-              Compared with manipulation in industrial settings, where objects, poses, and environmental 
-              conditions are largely fixed and predetermined, agricultural robotics inherently operates 
-              under substantial variability. Tasks such as irrigation, pruning, weeding, and harvesting 
-              naturally fit this notion: even among plants of the same species, significant variations arise 
-              in geometry, pose, size, maturity, and spatial arrangement due to differences in growth stage, 
-              environmental conditions, and biological processes. Furthermore, outdoor environments introduce 
-              additional sources of uncertainty, including changing illumination, weather, occlusions, and 
-              terrain conditions. As a result, agricultural robots must continuously adapt their perception, 
-              planning, and manipulation strategies to handle diverse task instances rather than repeatedly 
-              executing a single predefined workflow. 
+              Can data-driven methods scale to agricultural robotics despite orders-of-magnitude greater
+              variation than warehouse and household domains? This workshop seeks to explore emerging
+              robot learning research for agricultural robotics by bringing together researchers, students,
+              industry stakeholders, and practitioners to re-examine these challenges and opportunities.
             </p>
             <p>
-              This fundamental variability makes agriculture an ideal domain for studying how data and deep 
-              learning can transform the field, where robustness, adaptation, and generalization are essential 
-              for reliable deployment at scale. In this workshop, we are bringing together researchers, students, 
-              industry stakeholders, and practitioners to re-examine these challenges in the light of recent 
-              paradigms in data and learning. 
+              Our workshop features speakers from academia and industry, with a variety of backgrounds
+              relevant to our themes. To the best of our knowledge, this will be the first such workshop
+              at CoRL &mdash; but we believe we are at an inflection point where robot learning continues
+              to advance and solve tasks across many fields, while the challenges of real-world agriculture
+              have become increasingly pertinent. This workshop will bring stakeholders together to discuss
+              the possibilities at this inflection point.
             </p>
-            <!-- <p>
-              Compared with automation in industrial settings, where objects, poses, and environmental
-              conditions are largely fixed and predetermined, agricultural robotics inherently operates
-              under substantial variability. Tasks such as irrigation, pruning, weeding, and harvesting
-              naturally fit the notion of <strong>&ldquo;Variational Automation&rdquo;</strong> &mdash; even among plants of
-              the same species, significant variation arises in geometry, pose, size, maturity, and
-              spatial arrangement due to differences in growth stage, environmental conditions, and
-              biological processes. Outdoor environments add further sources of uncertainty, including
-              changing illumination, weather, occlusions, and terrain conditions. As a result,
-              agricultural robots must continuously adapt their perception, planning, and manipulation
-              strategies to handle diverse task instances rather than repeatedly executing a single
-              predefined workflow.
-            </p>
-            <p>
-              This fundamental variability makes agriculture an ideal domain for studying variational
-              automation, where robustness, adaptation, and generalization are essential for reliable
-              deployment at scale. In the age of generative AI and foundation models, this workshop
-              brings together researchers, students, industry stakeholders, and practitioners to
-              re-examine these challenges in light of these emerging paradigms.
-            </p> -->
           </div>
         </div>
       </div>
@@ -211,17 +200,17 @@
           <h2 class="title is-4 section-title">Topics of Interest</h2>
           <p class="mb-4">We solicit submissions and discussion on questions including, but not limited to:</p>
           <ul class="topic-list content is-medium">
-            <li>Multimodal sensing for dexterous plant manipulation</li>
-            <li>Robot navigation in agricultural fields, including orchards, vineyards, and greenhouses</li>
-            <li>Mobile manipulation in agricultural fields, including orchards, vineyards, and greenhouses</li>
-            <li>Digital twins at a variety of layers (2D, 3D, and 4D) for plant growth modeling</li>
-            <li>World models with a variety of input modalities for growth and action prediction</li>
-            <li>Acquiring large-scale simulation data for improved plant modeling</li>
-            <li>Acquiring large-scale real-world plant data for improved plant modeling</li>
-            <li>Using foundation models such as SAM 3 and SAM 3D to improve perception and modeling of plants</li>
-            <li>Obtaining large-scale manipulation data for plants across a variety of robot actions</li>
-            <li>Using LLMs and VLMs to improve agricultural robot policies</li>
-            <li>Approaches for generalization in robot plant manipulation across tasks</li>
+            <li>Data-efficient learning and adaptation for agricultural robots, including few-shot, self-supervised, and continual learning approaches</li>
+            <li>Learning world models and predictive models for crop growth, environmental dynamics, and robot&ndash;plant interactions</li>
+            <li>Learning plant-centric representations that capture plant geometry, growth dynamics, health status, and physical interactions</li>
+            <li>Learning contact-rich and deformable-object manipulation skills for plants, fruits, stems, leaves, and branches</li>
+            <li>Learning uncertainty-aware policies for decision making in safety-critical agricultural operations</li>
+            <li>Transfer learning across crops, farms, geographic regions, and agricultural tasks</li>
+            <li>Reinforcement learning and model-based learning for long-horizon agricultural tasks</li>
+            <li>Benchmarking, evaluation protocols, and datasets for agricultural robot learning</li>
+            <li>Human-in-the-loop learning, teleoperation, and demonstration collection for agricultural robot training</li>
+            <li>Multi-robot learning and coordination for large-scale agricultural operations</li>
+            <li>Lifelong learning and adaptation for robots deployed across multiple growing seasons</li>
           </ul>
         </div>
       </div>
@@ -240,7 +229,10 @@
               <div class="speaker-card">
                 <p class="speaker-name"><a href="https://www.linkedin.com/in/jim-ostrowski-9a8112/" target="_blank" rel="noopener">Jim Ostrowski</a></p>
                 <p class="speaker-affil">Chief Technology Officer, Blue River Technology</p>
-                <p>Brings an industry perspective on deployed agricultural automation systems.</p>
+                <p>Chief Technology Officer of Blue River Technology (acquired by John Deere), which
+                  applies robotics to precision agriculture for real-time, AI-driven weed removal and
+                  crop management. His deep industry experience will help motivate new research problems
+                  and bridge the gap between the research and industrial communities.</p>
               </div>
             </div>
 
@@ -248,9 +240,11 @@
               <div class="speaker-card">
                 <p class="speaker-name"><a href="https://goldberg.berkeley.edu/" target="_blank" rel="noopener">Ken Goldberg</a></p>
                 <p class="speaker-affil">UC Berkeley &mdash; AUTOLab</p>
-                <p>For nearly three decades, his lab has researched automation and manipulation in
-                  agricultural robotics, including precision irrigation, precision polyculture farming,
-                  and plant growth modeling. Brings an automation, algorithmic, and manipulation focus.</p>
+                <p>For three decades, his lab has carried out research in automation and manipulation
+                  across a range of robot applications, with agricultural robotics as an important
+                  component &mdash; including precision irrigation, pruning and irrigation in precision
+                  polyculture farming, and plant growth modeling. He will share insights into the
+                  challenges of bringing data and learning to agricultural robotics.</p>
               </div>
             </div>
 
@@ -258,28 +252,23 @@
               <div class="speaker-card">
                 <p class="speaker-name"><a href="https://baileylab.ucdavis.edu/" target="_blank" rel="noopener">Brian Bailey</a></p>
                 <p class="speaker-affil">UC Davis &mdash; Plant Simulation Laboratory</p>
-                <p>Developer of Helios, a leading simulation platform for plants. Brings a simulation
-                  and modeling focus to the workshop.</p>
+                <p>His lab developed Helios, a leading simulation and modeling platform for plants
+                  that supports 3D modeling and GPU acceleration. He will discuss how simulation
+                  enables data curation and robot learning for agricultural robotics.</p>
               </div>
             </div>
 
             <div class="column is-6">
               <div class="speaker-card">
-                <p class="speaker-name"><a href="https://thehcalab.web.illinois.edu/" target="_blank" rel="noopener">Katie Driggs-Campbell</a></p>
+                <p class="speaker-name"><a href="https://thehcalab.web.illinois.edu/" target="_blank" rel="noopener">Katie Driggs-Campbell</a><span class="online-badge">Joining online</span></p>
                 <p class="speaker-affil">University of Illinois Urbana-Champaign &mdash; Human-Centered Autonomy Lab</p>
-                <p>Affiliated with the Center for Digital Agriculture, working at the intersection of
-                  autonomy and human-centered robotics.</p>
+                <p>Affiliated with the Center for Digital Agriculture, her lab has worked on improving
+                  autonomy in agricultural robotics, including managing multiple robots at scale and
+                  failure recovery. She will discuss the uncertainties of unstructured outdoor
+                  environments and the opportunities offered by methods ranging from model-based
+                  approaches to data-driven techniques.</p>
               </div>
             </div>
-
-            <!-- <div class="column is-6">
-              <div class="speaker-card">
-                <p class="speaker-name"><a href="https://arm.stanford.edu/" target="_blank" rel="noopener">Monroe Kennedy III</a></p>
-                <p class="speaker-affil">Stanford University &mdash; Assistive Robotics and Manipulation Lab (ARMLab)</p>
-                <p>Develops tactile sensors and applies them to tasks requiring sub-millimeter precision,
-                  including in agriculture. Brings a multimodal and tactile sensing focus.</p>
-              </div>
-            </div> -->
 
           </div>
         </div>
@@ -293,7 +282,8 @@
       <div class="columns is-centered">
         <div class="column is-10">
           <h2 class="title is-4 section-title">Tentative Schedule</h2>
-          <p class="mb-4">Half-day workshop, 8:30 AM &ndash; 12:30 PM (local time, TBD)</p>
+          <p class="mb-4">Half-day workshop, 8:30 AM &ndash; 12:30 PM (local time, TBD). The workshop will be
+            held in person, with supplemental online participation supported for up to 50 remote attendees.</p>
 
           <div class="table-container">
             <table class="table is-fullwidth is-striped schedule-table">
@@ -305,8 +295,9 @@
               </thead>
               <tbody>
                 <tr><td>8:30 &ndash; 8:40 AM</td><td>Welcome &mdash; workshop objectives and format</td></tr>
-                <tr><td>8:40 &ndash; 10:00 AM</td><td>Invited Talks (4 &times; 15-minute presentations + 5-minute Q&amp;A each)</td></tr>
-                <tr><td>10:00 &ndash; 10:30 AM</td><td>Accepted Talks / Poster Blitzes</td></tr>
+                <tr><td>8:40 &ndash; 9:20 AM</td><td>Invited Talks (2 &times; 15-minute presentations + 5-minute Q&amp;A each)</td></tr>
+                <tr><td>9:20 &ndash; 9:50 AM</td><td>Accepted Talks / Poster Blitzes</td></tr>
+                <tr><td>9:50 &ndash; 10:30 AM</td><td>Invited Talks (2 &times; 15-minute presentations + 5-minute Q&amp;A each)</td></tr>
                 <tr><td>10:30 &ndash; 11:00 AM</td><td>Coffee Break (Poster Sessions &amp; Demos)</td></tr>
                 <tr><td>11:00 &ndash; 11:30 AM</td><td>Panel Discussion</td></tr>
                 <tr><td>11:30 AM &ndash; 12:15 PM</td><td>Breakout Discussions / Brainstorming Sessions</td></tr>
@@ -334,10 +325,11 @@
             </p>
             <p>
               Papers will be selected based on their relevance to the workshop themes and their
-              potential to seed meaningful discussion among attendees. In line with CoRL 2026 policy,
-              we will not accept papers that have already been published at, or accepted to, the main
-              CoRL 2026 conference. Speakers and participants may, however, highlight relevant
-              agriculture robotics papers appearing at CoRL 2026.
+              potential to seed meaningful discussion among attendees, with reviews informing the
+              final selection (up to 10 papers total). In line with CoRL 2026 policy, we will not
+              accept papers that have already been published at, or accepted to, the main CoRL 2026
+              conference. Speakers and participants may, however, highlight relevant agriculture
+              robotics papers appearing at CoRL 2026.
             </p>
             <p>
               Accepted papers will be spotlighted at the workshop, followed by a poster session, and
@@ -402,11 +394,11 @@
                 <a href="mailto:syxie@berkeley.edu">syxie@berkeley.edu</a></li>
               <li><strong>Simeon Adebola</strong> (UC Berkeley) &mdash;
                 <a href="mailto:simeon.adebola@berkeley.edu">simeon.adebola@berkeley.edu</a></li>
-              <li><strong>Eric Chen</strong> (UC Berkeley) &mdash;
+              <li><strong>Kaiyuan &lsquo;Eric&rsquo; Chen</strong> (UC Berkeley) &mdash;
                 <a href="mailto:kych@berkeley.edu">kych@berkeley.edu</a></li>
               <li><strong>Lirong Xiang</strong> (Cornell University) &mdash;
                 <a href="mailto:lxiang@cornell.edu">lxiang@cornell.edu</a></li>
-              <li><strong>Arun Narenthiran Sivakumar</strong> (Terrawise) &mdash;
+              <li><strong>Arun Narenthiran Sivakumar</strong> (TerraWise) &mdash;
                 <a href="mailto:arunnarenvs@gmail.com">arunnarenvs@gmail.com</a></li>
               <li><strong>Varun Murali</strong> (Texas A&amp;M University) &mdash;
                 <a href="mailto:mvarun@tamu.edu">mvarun@tamu.edu</a></li>
